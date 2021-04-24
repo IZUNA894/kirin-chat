@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "..\\AHN"
+    },
+    {
+      "path": "..\\mcat"
+    },
+    {
+      "path": "..\\KYSO"
+    },
+    {
+      "path": "..\\address"
+    },
+    {
+      "path": "..\\socket.io"
+    }
+  ],
+  "settings": {}
+}

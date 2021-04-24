@@ -1,0 +1,23 @@
+/* The Overlay (background) */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */
+  height: 100%;
+  width: 100%;
+  position: fixed; /* Stay in place */
+  display: block;
+  z-index: 1200; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: white; /* Black fallback color */
+  background-color: rgba(242, 241, 247, 0.5); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+  position: relative;
+  top: 30%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
