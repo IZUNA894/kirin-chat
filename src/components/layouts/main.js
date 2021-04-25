@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import Profile from "../chatpage/leftPanel/profile";
 import SearchBox from "../chatpage/leftPanel/searchBox";
 import Contact from "../chatpage/leftPanel/contact";
@@ -8,34 +8,18 @@ import ContactProfile from "../chatpage/rightPanel/contactProfile";
 import Messages from "../chatpage/rightPanel/messages";
 import MsgInput from "../chatpage/rightPanel/msgInput";
 import "../../css/reset.min.css";
-import queryString from "query-string";
-import axios from "axios";
+import { Redirect } from "react-router-dom";
 import { join } from "../../js/socketUtil";
-import { MainContext } from "../../context/mainContext";
-import { ContactListContext } from "../../context/contactList";
 import { showLoader, hideLoader } from "../../redux/actions";
 
-// function MainParent(props) {
-//   var { setContacts, contacts } = useContext(ContactListContext);
-//   return (
-//     <Main
-//       setContacts={setContacts}
-//       contacts={contacts}
-//       socket={props.socket}
-//       queryString={props.location.search}
-//     />
-//   );
-// }
 class Main extends Component {
   state = {
     owner: null,
     messages: {},
 
     contacts: [],
-    randomKey: null,
+    redirect: null,
   };
-
-  static contextType = MainContext;
 
   //this func will add single msg to state...
   // called when socket recieve or send the msg
@@ -104,12 +88,19 @@ class Main extends Component {
   componentDidMount() {
     // var { addSender } = this.context;
     const user = this.props.user;
-
-    this.setState({ owner: user.username });
-    // addSender(user.username);
-    join(user.username);
+    console.log(user);
+    if (user && user.first_name) {
+      this.setState({ owner: user.username });
+      // addSender(user.username);
+      join(user.username);
+    } else {
+      this.setState({ redirect: "/" });
+    }
   }
   render() {
+    if (this.state.rediect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     var storeData = this.state;
     return (
       <div id="frame">

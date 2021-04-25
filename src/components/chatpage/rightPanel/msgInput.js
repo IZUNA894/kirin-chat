@@ -1,51 +1,20 @@
-//msg input box...
-// when a user types and hit enter...
-// a msg obj is form snd send to socketUtil.js from where it is sent to server...
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import date from "date-and-time";
-// import 'date-and-time/plugin/meridiem';
+import toast from "./../../../utils/toast";
+
 import { sendMessage } from "../../../js/socketUtil";
-// import {MainContext} from "../../../context/mainContext";
 import { setMessage } from "./../../../redux/actions";
-// class MsgInputParent extends Component{
-//   // static contextType = MainContext;
-//   render(){
-
-//     var {sender,openedContact} = this.context;
-//     var reciever = openedContact?openedContact.username:"";
-//     return(
-//     <MsgInput sender={sender} reciever={reciever} addMsgtostate={this.props.addMsgtostate}/>
-//     )
-//   }
-
-// }
-// Appling the plugin to "date-and-time".
-//  date.plugin('meridiem');
 
 class MsgInput extends Component {
   state = {
     message: null,
   };
 
-  //  static getDerivedStateFromProps = (props, state)=>{
-
-  //    var reciever = props.reciever;
-  //    var sender = props.sender;
-  //    return {...this.state,
-  //           reciever:reciever,
-  //           sender:sender};
-  //  }
   handleSubmit = (e) => {
     e.preventDefault();
     let message = this.state.message;
     this.setState({ message: "" });
 
-    //console.log(hello());
-    // var inp = document.getElementById("msgData");
-    // console.log(this.state);
-    // inp.value = "";
-    //send the msg to server...
     const user = this.props.user;
     const friend = this.props.selected_contact;
 
@@ -69,7 +38,79 @@ class MsgInput extends Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  componentWillMount() {}
+  sendGeoLocatiuon = () => {
+    const user = this.props.user;
+    const friend = this.props.selected_contact;
+    let position = {};
+    if (!navigator.geolocation) {
+      toast("Geolocation is not supported by your browser");
+      return;
+    } else {
+      position = navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // let link = `http://maps.google.com/maps?q=loc:${latitude},${longitude}`;
+
+        const newMessage = {
+          from: user.username,
+          from_id: user._id,
+          to: friend.username,
+          friend_id: friend._id,
+          type: "LOCATION",
+          latitude,
+          longitude,
+        };
+        sendMessage(newMessage);
+        //send the msg to lacal state..
+        let messageArr = this.props.messageArr[friend.username]
+          ? this.props.messageArr[friend.username]
+          : [];
+        messageArr.push(newMessage);
+
+        this.props.setMessage({ to: friend.username, message: messageArr });
+      });
+    }
+  };
+  sendMedia = (e) => {
+    const user = this.props.user;
+    const friend = this.props.selected_contact;
+    const type = e.target.files[0].type;
+    if (type !== "image/png" && type !== "image/jpg" && type !== "image/jpeg") {
+      toast("Only jpg png formats are allowed!");
+      return;
+    }
+
+    let file = e.target.files[0];
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        let base64 = reader.result;
+        this.setState({ media: base64 });
+
+        const newMessage = {
+          from: user.username,
+          from_id: user._id,
+          to: friend.username,
+          friend_id: friend._id,
+          base64_string: base64,
+          type: "MEDIA",
+        };
+        sendMessage(newMessage);
+        //send the msg to lacal state..
+        let messageArr = this.props.messageArr[friend.username]
+          ? this.props.messageArr[friend.username]
+          : [];
+        messageArr.push(newMessage);
+
+        this.props.setMessage({ to: friend.username, message: messageArr });
+      };
+      reader.onError = (error) => {
+        console.log(error);
+      };
+    }
+  };
   render() {
     if (this.props.selected_contact) {
       return (
@@ -95,9 +136,22 @@ class MsgInput extends Component {
               >
                 <i className="fa fa-paper-plane"></i>
               </button>
-              <i className="submit" id="find-me" style={{ height: "45px" }}>
-                <i className="fa fa-paper-plane"></i>
-              </i>
+              {/* locatio icon */}
+              <span
+                className="submit"
+                id="find-me"
+                style={{ height: "45px", width: "50px" }}
+                onClick={this.sendGeoLocatiuon}
+              >
+                <i class="far fa-compass" style={{ fontSize: "3rem" }}></i>
+              </span>
+              {/* image upload icon */}
+              <span
+                className="submit"
+                style={{ height: "45px", width: "50px" }}
+              >
+                <input type="file" onChange={this.sendMedia} />
+              </span>
             </form>
           </div>
         </div>

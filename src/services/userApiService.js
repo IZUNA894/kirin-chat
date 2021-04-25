@@ -51,6 +51,38 @@ class UserApiService {
     });
   };
 
+  loginByPhone = (data) => {
+    return DataService.postRequest("/api/v1/users/login/phone", data).then(
+      (response) => {
+        // console.log(response);
+
+        if (response.status !== true) throw response;
+        return response.data;
+      }
+    );
+  };
+
+  verifyOTP = (data) => {
+    return DataService.postRequest("/api/v1/users/verify/phone", data).then(
+      (response) => {
+        // console.log(response);
+
+        if (response.status !== true) throw response;
+        return response.data;
+      }
+    );
+  };
+
+  resendOTP = (data) => {
+    return DataService.postRequest("/api/v1/users/resend", data).then(
+      (response) => {
+        // console.log(response);
+
+        if (response.status !== true) throw response;
+        return response.data;
+      }
+    );
+  };
   forgotPassword = (data) => {
     return DataService.postRequest("/api/v1/users/password/forgot", data).then(
       (response) => {
@@ -72,6 +104,17 @@ class UserApiService {
 
   addFriend = ({ friend_id, user_id }) => {
     return DataService.postRequest("/api/v1/users/people/friends", {
+      user_id,
+      friend_id,
+    }).then((response) => {
+      console.log(response);
+      if (response.status !== true) throw response;
+      return response.data;
+    });
+  };
+
+  removeFriend = ({ friend_id, user_id }) => {
+    return DataService.deleteRequest("/api/v1/users/people/friends", {
       user_id,
       friend_id,
     }).then((response) => {

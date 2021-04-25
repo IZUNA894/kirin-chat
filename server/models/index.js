@@ -23,7 +23,7 @@ const verifyForgotHash = require("./user/password/verifyForgotHash")(joi);
 
 //people
 const addFriend = require("./user/people/addFriend")(joi);
-
+const removeFriend = require("./user/people/removeFriend")(joi);
 //message
 const getAllMessages = require("./message/getAllMessages")(joi);
 
@@ -41,7 +41,8 @@ const schemas = {
   verifyForgotHash,
   //people
   addFriend,
-  getAllMessages
+  getAllMessages,
+  removeFriend
 };
 
 const schemaValidator = (object, type) => {

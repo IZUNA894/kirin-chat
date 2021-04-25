@@ -4,8 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import "../../css/chatpage.css";
 import Logo from "../../images/kirin.png";
 import toast from "../../utils/toast";
-import UserService from "./../../services/userApiService";
-import schemaValidator from "./../../models";
+import UserService from "../../services/userApiService";
+import schemaValidator from "../../models";
 import { connect } from "react-redux";
 
 class Login extends Component {
@@ -46,6 +46,12 @@ class Login extends Component {
         this.props.hideLoader();
       });
   };
+  componentDidMount() {
+    const user = this.props.user;
+    if (user && user.first_name) {
+      this.setState({ redirect: "/main" });
+    }
+  }
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -92,9 +98,9 @@ class Login extends Component {
           </button>
         </form>
         <div className="new-user-text">
-          <p>
-            New User ? <a href="/signup"> Sign Up</a>
-          </p>
+          <Link to="/signup">Sign Up</Link>
+          <Link to="/login/phone"> Login With Phone </Link>
+
           <p className="errMsg"></p>
         </div>
       </div>

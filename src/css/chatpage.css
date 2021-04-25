@@ -1,10 +1,9 @@
-
-  body {
+body {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background : white;
+  background: white;
   font-family: "proxima-nova", "Source Sans Pro", sans-serif;
   font-size: 1em;
   letter-spacing: 0.1px;
@@ -21,7 +20,7 @@
   height: 100vh;
   min-height: 300px;
   /* max-height: 720px; */
-  background: #E6EAEA;
+  background: #e6eaea;
 }
 @media screen and (max-width: 360px) {
   #frame {
@@ -171,7 +170,7 @@
   }
 }
 #frame #sidepanel #profile .wrap #status-options:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 0;
@@ -215,8 +214,15 @@
     height: 14px;
   }
 }
-#frame #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
-  content: '';
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li
+  span.status-circle:before {
+  content: "";
   position: absolute;
   width: 14px;
   height: 14px;
@@ -226,7 +232,14 @@
   z-index: 0;
 }
 @media screen and (max-width: 735px) {
-  #frame #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+  #frame
+    #sidepanel
+    #profile
+    .wrap
+    #status-options
+    ul
+    li
+    span.status-circle:before {
     height: 18px;
     width: 18px;
   }
@@ -239,28 +252,84 @@
     display: none;
   }
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-online span.status-circle {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-online
+  span.status-circle {
   background: #2ecc71;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-online.active span.status-circle:before {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-online.active
+  span.status-circle:before {
   border: 1px solid #2ecc71;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-away span.status-circle {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-away
+  span.status-circle {
   background: #f1c40f;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-away.active span.status-circle:before {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-away.active
+  span.status-circle:before {
   border: 1px solid #f1c40f;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-busy span.status-circle {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-busy
+  span.status-circle {
   background: #e74c3c;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-busy.active span.status-circle:before {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-busy.active
+  span.status-circle:before {
   border: 1px solid #e74c3c;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-offline span.status-circle {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-offline
+  span.status-circle {
   background: #95a5a6;
 }
-#frame #sidepanel #profile .wrap #status-options ul li#status-offline.active span.status-circle:before {
+#frame
+  #sidepanel
+  #profile
+  .wrap
+  #status-options
+  ul
+  li#status-offline.active
+  span.status-circle:before {
   border: 1px solid #95a5a6;
 }
 #frame #sidepanel #profile .wrap #expanded {
@@ -302,7 +371,7 @@
   margin: 10px 0 0 20px;
 }
 #frame #sidepanel #search input {
-  font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+  font-family: "proxima-nova", "Source Sans Pro", sans-serif;
   padding: 10px 0 10px 46px;
   width: calc(100% - 25px);
   border: none;
@@ -441,7 +510,7 @@
   border: none;
   padding: 0 2px 0 0;
   margin: 0 0 0 1px;
-  opacity: .5;
+  opacity: 0.5;
 }
 #frame #sidepanel #bottom-bar {
   position: absolute;
@@ -457,7 +526,7 @@
   color: #f5f5f5;
   cursor: pointer;
   font-size: 0.85em;
-  font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+  font-family: "proxima-nova", "Source Sans Pro", sans-serif;
 }
 @media screen and (max-width: 735px) {
   #frame #sidepanel #bottom-bar button {
@@ -506,7 +575,7 @@
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline
+  vertical-align: baseline;
 }
 @media screen and (max-width: 735px) {
   #frame .content {
@@ -558,7 +627,7 @@
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline
+  vertical-align: baseline;
 }
 @media screen and (max-width: 735px) {
   #frame .content .messages {
@@ -572,26 +641,29 @@
 #frame .content .messages::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3);
 }
-#frame .content .messages-no-contact{
+#frame .content .messages-no-contact {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   flex-direction: column;
 }
-#frame .content .inner-text{
+#frame .content .inner-text {
   font-family: cursive;
-  font-size:1.5rem;
-  color:#435f7a;
+  font-size: 1.5rem;
+  color: #435f7a;
   display: block;
 }
-#frame .content .inner-messages-no-contact{
+#frame .content .inner-messages-no-contact {
   display: flex;
   justify-content: center;
-  align-items: center; 
-
+  align-items: center;
 }
-#frame .content .messages-no-contact .inner-messages-no-contact .addContact-icon{
-  font-size:100px;
+#frame
+  .content
+  .messages-no-contact
+  .inner-messages-no-contact
+  .addContact-icon {
+  font-size: 100px;
 }
 #frame .content .messages ul li {
   display: inline-block;
@@ -606,18 +678,20 @@
 }
 #frame .content .messages ul li.sent img {
   margin: 6px 8px 0 0;
+  float: right;
 }
 #frame .content .messages ul li.sent p {
   background: #435f7a;
   color: #f5f5f5;
+  float: right;
 }
 #frame .content .messages ul li.replies img {
-  float: right;
+  float: left;
   margin: 6px 0 0 8px;
 }
 #frame .content .messages ul li.replies p {
   background: #f5f5f5;
-  float: right;
+  float: left;
 }
 #frame .content .messages ul li img {
   width: 30px;
@@ -625,7 +699,7 @@
   float: left;
 }
 #frame .content .messages ul li p {
-  font-family:"comic sans ms";
+  font-family: "comic sans ms";
   font-size: 1.2rem;
   display: inline-block;
   padding: 10px 15px;
@@ -648,11 +722,11 @@
   position: relative;
 }
 #frame .content .message-input .wrap input {
-  font-family: "comic sans ms",  "Source Sans Pro", sans-serif;
+  font-family: "comic sans ms", "Source Sans Pro", sans-serif;
   float: left;
   border: none;
-  height:45px;
-  width: calc(100% - 100px);
+  height: 45px;
+  width: calc(100% - 150px);
   padding: 11px 32px 10px 8px;
   font-size: 1.2em;
   color: #32465a;
@@ -672,7 +746,7 @@
   margin-top: 10px;
   font-size: 1.1em;
   color: #435f7a;
-  opacity: .5;
+  opacity: 0.5;
   cursor: pointer;
 }
 @media screen and (max-width: 735px) {
@@ -705,11 +779,11 @@
   outline: none;
 }
 /* css for sign in and log in page */
-.logo-image{
-  display:block;
-  margin:auto;
-  width:400px;
-  height:100px;
+.logo-image {
+  display: block;
+  margin: auto;
+  width: 400px;
+  height: 100px;
 }
 .form-signin {
   width: 100%;
@@ -724,7 +798,7 @@
   height: auto;
   padding: 10px;
   font-size: 16px;
-  margin:auto;
+  margin: auto;
 }
 .form-signin .form-control:focus {
   z-index: 2;
@@ -741,22 +815,22 @@
   border-top-right-radius: 0;
   width: calc(100% - 25px);
 }
-.form-signin input[type="password"]::after{
-  content:"*jfjfj";
+.form-signin input[type="password"]::after {
+  content: "*jfjfj";
 }
-.new-user-text{
+.new-user-text {
   text-align: center;
 }
-label{
+label {
   font-size: 1.2rem;
   font-family: cursive;
 }
-.errMsg{
-  color:red;
+.errMsg {
+  color: red;
   font-family: ;
 }
 
 /* peoplelist  css */
-.card-text{
+.card-text {
   margin-bottom: 0.1rem;
 }

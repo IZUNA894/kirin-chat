@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-// import { MainContext } from "../../../context/mainContext";
-// import { showLoader } from "./../../../redux/actions";
+import { clearUser } from "./../../../redux/actions";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import PokeImg from "./../../../images/poke-5.png";
 
 class Profile extends Component {
@@ -14,6 +14,7 @@ class Profile extends Component {
     name: null,
     email: null,
     username: null,
+    redirect: null,
   };
   componentWillMount() {
     // before rendering a comp. fetch the data from browser storage and store it
@@ -21,25 +22,26 @@ class Profile extends Component {
     this.setState(user);
   }
 
+  logOut = () => {
+    this.props.clearUser();
+    this.setState({ redirect: "/" });
+  };
   render() {
-    // var { sender } = this.context;
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     const avatar = this.state.avatar_media_url;
     return (
       <div id="profile">
         <div className="wrap">
           <img
             id="profile-img"
-            src={
-              avatar ? "http://localhost:8080/api/v1/media/" + avatar : PokeImg
-            }
+            src={avatar ? "/api/v1/media/" + avatar : PokeImg}
             className="online"
             alt=""
           />
           <p>{this.state.username}</p>
-          <i
-            className="fa fa-chevron-down expand-button"
-            aria-hidden="true"
-          ></i>
+          <i className="fa fa-chevron-down expand-button"></i>
           <div id="status-options">
             <ul>
               <li id="status-online" className="active">
@@ -61,10 +63,11 @@ class Profile extends Component {
             </ul>
           </div>
           <div id="expanded">
-            <label htmlFor="twitter">Name</label>
-            <input name="twitter" type="text" value={this.state.name} />
-            <label htmlFor="twitter">Email</label>
-            <input name="twitter" type="text" value={this.state.email} />
+            <ul>
+              <li>
+                <p onClick={this.logOut}>Log Out</p>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -77,4 +80,4 @@ const mapStateToProps = (state) => {
     user: state.user,
   };
 };
-export default connect(mapStateToProps, null)(Profile);
+export default connect(mapStateToProps, { clearUser })(Profile);

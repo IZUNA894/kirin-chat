@@ -16,10 +16,18 @@ const schema = (yup) => {
       .required("confirm password is required")
       .label("confirm password"),
 
-    name: yup
+    first_name: yup
       .string()
-      .required("name is required")
-      .label("distributor name"),
+      .required("first name is required")
+      .label("first name"),
+    last_name: yup
+      .string()
+      .required("last name is required")
+      .label("last name"),
+    username: yup
+      .string()
+      .required("username is required")
+      .label("username"),
     country_code: yup
       .string()
       .oneOf(["91"], "only indian is supported")

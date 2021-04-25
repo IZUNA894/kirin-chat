@@ -16,7 +16,7 @@ const Users = require("../database").getUserCollection();
 const SignupTokens = require("../database").getsignupTokenCollection();
 const LoginOTP = require("../database").getloginOTPCollection();
 const ForgotTokens = require("../database").getforgotPasswordTokenCollection();
-
+const Messages = require("../database").getMessageCollection();
 const { defaultS3: AWS } = require("../utils/aws/s3");
 const S3 = AWS();
 
@@ -583,9 +583,9 @@ module.exports.addFriend = parameters => {
 };
 
 module.exports.removeFriend = parameters => {
-  return validate(parameters, "addFriend")
+  return validate(parameters, "removeFriend")
     .then(result => {
-      const { user_id, friend_id } = result;
+      const { user_id, friend_id, to, from } = result;
       return Promise.all([
         Users.findOneAndUpdate(
           { _id: { $in: [ObjectId(user_id)] } },
@@ -596,7 +596,13 @@ module.exports.removeFriend = parameters => {
           { _id: { $in: [ObjectId(friend_id)] } },
           { $pull: { friends: ObjectId(user_id) } },
           { returnOriginal: false, projection: { password: 0 } }
-        )
+        ),
+        Messages.find({
+          $or: [
+            { $and: [{ from: from }, { to: to }] },
+            { $and: [{ from: to }, { to: from }] }
+          ]
+        }).toArray()
       ]);
     })
     .then(result => {

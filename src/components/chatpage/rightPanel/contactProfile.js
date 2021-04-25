@@ -5,90 +5,32 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../../../css/chatpage.css";
 import PokeImg from "./../../../images/poke-5.png";
+import UserService from "./../../../services/userApiService";
+import toast from "./../../../utils/toast";
+import { showLoader, hideLoader, setUser } from "./../../../redux/actions";
 
 class ContactProfile extends Component {
-  //  static contextType = MainContext;
-  // addMsgstoState = (tokenId,msgs)=>{
-  //     this.props.addMsgstoState(tokenId,msgs);
-  // }
+  removeFriend = (contact) => {
+    // var {sender} = this.context;
+    const { _id: user_id, username: from } = this.props.user;
+    const { _id: friend_id, username: to } = contact;
 
-  // wrapper = (func)=>{
-  //     return(
-  //         (tokenId,msgs)=>{
-  //             return(
-  //                 func(tokenId,msgs)
-  //             )
-  //         }
-  //     )
-  // }
-  // componentDidUpdate(prevProps){
-  //     var {sender,openedContact} = this.context;
-  //     var reciever = openedContact && openedContact.username;
-  //     var route="";
-  //     var msgs="";
-  //     if(!reciever){
-  //         return;
-  //     }
-  //     var tokenId = sender < reciever ? sender + reciever : reciever + sender;
+    this.props.showLoader();
+    UserService.removeFriend({ user_id, friend_id, to, from })
+      .then((response) => {
+        toast("Message deleted and \n Freind removed Successfully");
 
-  //     console.log(sender,reciever);
+        this.props.setUser(response);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.message);
 
-  //     var shouldFetch = 1;
-  //    // checcking if msg for selected contct are already or not
-  //     if(this.props.messages[tokenId] && this.props.messages[tokenId].isLoaded==1)
-  //         shouldFetch = 0
-  //     var addMsgstoState = this.wrapper(this.addMsgstoState);
-  //     //axios req to fetch msg from server
-  //     if(shouldFetch){
-  //         axios.get('http://localhost:3001/msg/getMsg', {
-  //             params: {
-  //             sender,
-  //             reciever
-  //             }
-  //         })
-  //         .then(async function (response) {
-  //             var msgs = response.data;
+        toast(error.message || error.errors[0]);
 
-  //             console.log("from axios req...");
-  //             console.log(msgs);
-  //             console.log(reciever);
-
-  //             msgs = msgs && msgs.map((msg)=>{
-  //                 if(msg.sender == sender)
-  //                 route = "sent";
-  //                 else
-  //                 route = 'replies';
-  //                 return{
-  //                     val:msg.val,
-  //                     route,
-  //                     time:msg.time
-  //                 }
-  //             })
-
-  //             addMsgstoState(tokenId,msgs);
-  //         })
-  //         .catch(function (error) {
-  //             console.log(error);
-  //         });
-
-  //     }
-
-  // }
-  // deleteFriend = (usr)=>{
-  //     var {sender} = this.context;
-
-  //     axios.patch("http://localhost:3001/rel/deleteFriend",{
-  //         sender,uid:usr._id
-  //     })
-  //     .then((res)=>{
-  //         console.log("inside axios");
-  //         console.log(res);
-  //         window.location.reload();
-  //     })
-  //     .catch(function(err){
-  //         console.log(err);
-  //     })
-  // }
+        this.props.hideLoader();
+      });
+  };
   render() {
     let contact = this.props.selected_contact;
     let avatar = null;
@@ -99,12 +41,12 @@ class ContactProfile extends Component {
           <img src={avatar ? "/api/v1/media/" + avatar : PokeImg} alt="" />
           <p>{contact.username}</p>
           <div className="social-media">
-            <i className="fa fa-facebook" aria-hidden="true"></i>
-            <i className="fa fa-twitter" aria-hidden="true"></i>
-            <i className="fa fa-instagram" aria-hidden="true"></i>
+            <i className="fa fa-facebook"></i>
+            <i className="fa fa-twitter"></i>
+            <i className="fa fa-instagram"></i>
             <i
               className="fa fa-ellipsis-v"
-              onClick={(e) => this.deleteFriend(contact)}
+              onClick={(e) => this.removeFriend(contact)}
             ></i>
           </div>
         </div>
@@ -121,6 +63,9 @@ class ContactProfile extends Component {
 const mapStateToProps = (state) => {
   return {
     selected_contact: state.user.selected_contact,
+    user: state.user,
   };
 };
-export default connect(mapStateToProps)(ContactProfile);
+export default connect(mapStateToProps, { showLoader, hideLoader, setUser })(
+  ContactProfile
+);

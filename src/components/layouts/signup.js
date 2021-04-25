@@ -3,11 +3,13 @@ import Logo from "../../images/kirin.png";
 import "../../css/chatpage.css";
 import { showLoader, hideLoader } from "./../../redux/actions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import toast from "./../../utils/toast";
 import schemaValidator from "./../../models";
 import UserService from "./../../services/userApiService";
 import TelInput from "./../../services/telInput";
+import LoginEmail from "./loginEmail";
+
 class Signup extends Component {
   state = {
     first_name: null,
@@ -45,7 +47,7 @@ class Signup extends Component {
     schemaValidator("addUser")
       .validate(userObj)
       .then((user) => {
-        return UserService.loginByEmail(user);
+        return UserService.signup(user);
       })
       .then((response) => {
         toast("You Sign Up Successfully");
@@ -62,6 +64,9 @@ class Signup extends Component {
   };
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div>
         <img className="mb-4 logo-image" src={Logo} alt="" />
@@ -205,7 +210,7 @@ class Signup extends Component {
         </form>
         <div className="new-user-text">
           <p>
-            Already have an Account ? <a href="/"> Login</a>
+            Already have an Account ? <Link to="/"> Login</Link>
           </p>
           <p className="errMsg"></p>
         </div>

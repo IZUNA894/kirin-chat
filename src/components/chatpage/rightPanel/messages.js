@@ -17,12 +17,13 @@ class Messages extends Component {
   componentDidMount() {
     // here we are listening for incoming msg...through socket io..and adding them to state...
     let user = this.props.user;
-    let messageArr = this.props.message[user.username]
-      ? this.props.message[user.username]
-      : [];
 
     recieveMessage((message) => {
-      console.log("inside cl");
+      let { from, to } = message;
+      let toKey = from !== user.username ? from : to;
+      let messageArr = this.props.message[toKey]
+        ? this.props.message[toKey]
+        : [];
       messageArr.push(message);
       this.props.setMessage({ to: message.from, message: messageArr });
     });
@@ -86,8 +87,29 @@ class Messages extends Component {
                 src={msg.from === user.username ? userAvatar : friendAvatar}
                 alt=""
               />
+
               <p>
-                {msg.value}
+                {msg.type === "TEXT" ? (
+                  msg.value
+                ) : msg.type === "LOCATION" ? (
+                  <a
+                    href={`http://maps.google.com/maps?q=loc:${msg.latitude},${msg.longitude}`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    LOCATION
+                  </a>
+                ) : (
+                  <img
+                    src={msg.base64_string}
+                    alt=""
+                    style={{
+                      height: "15vw",
+                      width: "15vw",
+                      borderRadius: "3px",
+                    }}
+                  />
+                )}
                 <br />
                 <span
                   style={{ float: "right", color: "grey", fontSize: 15 + "px" }}
