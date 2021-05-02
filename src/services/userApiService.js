@@ -6,7 +6,7 @@ class UserApiService {
       (response) => {
         console.log(response);
         if (response.status !== true) {
-          throw response;
+          throw new Error(response.message);
         }
 
         return response.data;
@@ -18,7 +18,7 @@ class UserApiService {
       (response) => {
         console.log(response);
 
-        if (response.status !== true) throw response;
+        if (response.status !== true) throw new Error(response.message);
         return response.data;
       }
     );
@@ -27,7 +27,7 @@ class UserApiService {
   updateUser = (data) => {
     return DataService.putRequest("/api/v1/users/", data).then((response) => {
       console.log(response);
-      if (response.status !== true) throw response;
+      if (response.status !== true) throw new Error(response.message);
       return response.data;
     });
   };
@@ -36,7 +36,16 @@ class UserApiService {
     return DataService.postRequest("/api/v1/users/password/change", data).then(
       (response) => {
         console.log(response);
-        if (response.status !== true) throw response;
+        if (response.status !== true) throw new Error(response.message);
+      }
+    );
+  };
+
+  uploadAvatar = (data) => {
+    return DataService.postFormDataRequest("/api/v1/users/avatars", data).then(
+      (response) => {
+        console.log(response);
+        if (response.status !== true) throw new Error(response.message);
       }
     );
   };
@@ -46,7 +55,7 @@ class UserApiService {
       user_id,
     }).then((response) => {
       console.log(response);
-      if (response.status !== true) throw response;
+      if (response.status !== true) throw new Error(response.message);
       return response.data;
     });
   };
@@ -56,7 +65,7 @@ class UserApiService {
       (response) => {
         // console.log(response);
 
-        if (response.status !== true) throw response;
+        if (response.status !== true) throw new Error(response.message);
         return response.data;
       }
     );
@@ -67,7 +76,7 @@ class UserApiService {
       (response) => {
         // console.log(response);
 
-        if (response.status !== true) throw response;
+        if (response.status !== true) throw new Error(response.message);
         return response.data;
       }
     );
@@ -78,7 +87,7 @@ class UserApiService {
       (response) => {
         // console.log(response);
 
-        if (response.status !== true) throw response;
+        if (response.status !== true) throw new Error(response.message);
         return response.data;
       }
     );
@@ -87,7 +96,15 @@ class UserApiService {
     return DataService.postRequest("/api/v1/users/password/forgot", data).then(
       (response) => {
         console.log(response);
-        if (response.status !== true) throw response;
+        if (response.status !== true) throw new Error(response.message);
+      }
+    );
+  };
+  changePassword = (data) => {
+    return DataService.postRequest("/api/v1/users/password/change", data).then(
+      (response) => {
+        console.log(response);
+        if (response.status !== true) throw new Error(response.message);
       }
     );
   };
@@ -97,7 +114,7 @@ class UserApiService {
       user_id,
     }).then((response) => {
       console.log(response);
-      if (response.status !== true) throw response;
+      if (response.status !== true) throw new Error(response.message);
       return response.data;
     });
   };
@@ -108,7 +125,7 @@ class UserApiService {
       friend_id,
     }).then((response) => {
       console.log(response);
-      if (response.status !== true) throw response;
+      if (response.status !== true) throw new Error(response.message);
       return response.data;
     });
   };
@@ -119,7 +136,7 @@ class UserApiService {
       friend_id,
     }).then((response) => {
       console.log(response);
-      if (response.status !== true) throw response;
+      if (response.status !== true) throw new Error(response.message);
       return response.data;
     });
   };
@@ -129,7 +146,7 @@ class UserApiService {
       user_id,
     }).then((response) => {
       console.log(response);
-      if (response.status !== true) throw response;
+      if (response.status !== true) throw new Error(response.message);
       return response.data;
     });
   };

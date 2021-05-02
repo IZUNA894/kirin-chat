@@ -348,12 +348,12 @@ module.exports.forgotPassword = parameters => {
 module.exports.changePassword = parameters => {
   return validate(parameters, "resetPasswordForUser")
     .then(result => {
-      const { user_id, email, old_password, new_password } = result;
+      const { user_id, password, new_password } = result;
       return Users.findOneAndUpdate(
         {
           _id: ObjectId(user_id),
-          email: new RegExp(email, "i"),
-          password: old_password
+
+          password: password
         },
         { $set: { password: new_password } },
         { projection: { password: 0 }, returnOriginal: false }

@@ -6,15 +6,13 @@ import LoginPhone from "./components/layouts/loginPhone";
 import VerifyOTP from "./components/layouts/verifyOTP";
 import Signup from "./components/layouts/signup.js";
 import MainParent from "./components/layouts/main";
-// import crossed from "./components/layouts/crossed.js";
 import peopleList from "./components/layouts/peopleList.js";
-
+import EditUser from "./components/layouts/editProfile";
+import EditAvatar from "./components/layouts/editAvatar";
+import EditPassword from "./components/layouts/editPassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./components/loader";
-
-// we using both context and redux in our app....
-//although redux is not playing any role in our app working...its for future versions...
 class App extends React.Component {
   render() {
     return (
@@ -27,7 +25,9 @@ class App extends React.Component {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login/phone" component={LoginPhone} />
           <Route exact path="/verify/phone" component={VerifyOTP} />
-
+          <Route exact path="/users/edit" component={EditUser} />
+          <Route exact path="/users/avatar/change" component={EditAvatar} />
+          <Route exact path="/users/password/change" component={EditPassword} />
           <Route
             path="/main"
             socket={this.props.socket}

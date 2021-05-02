@@ -1,10 +1,10 @@
 const schema = (yup) => {
   return yup.object().shape({
-    distributor_id: yup
+    user_id: yup
       .string()
       .matches(/^[0-9a-fA-F]{24}$/)
-      .required("distributor_id is required"),
-    current_password: yup
+      .required("user_id is required"),
+    password: yup
       .string()
       .min(8, "password should be greater than 8 char")
       .required("password is required")

@@ -4,10 +4,12 @@ import toast from "./../../../utils/toast";
 
 import { sendMessage } from "../../../js/socketUtil";
 import { setMessage } from "./../../../redux/actions";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 class MsgInput extends Component {
   state = {
     message: null,
+    inputMediaRef: null,
   };
 
   handleSubmit = (e) => {
@@ -111,50 +113,70 @@ class MsgInput extends Component {
       };
     }
   };
+
+  handleMediaClick = (e) => {
+    this.inputMediaRef.click();
+  };
   render() {
     if (this.props.selected_contact) {
       return (
-        <div className="message-input" style={{ position: "relative" }}>
-          <div className="wrap">
-            <form
-              className="form-inline"
-              id="msgForm"
-              onSubmit={this.handleSubmit}
-            >
-              <input
-                type="text"
-                name="message"
-                placeholder="Write your message..."
-                id="msgData"
-                onChange={this.handleChange}
-                value={this.state.message}
-              />
-              <button
-                className="submit"
-                id="submit-button"
-                style={{ height: "45px" }}
-              >
-                <i className="fa fa-paper-plane"></i>
-              </button>
-              {/* locatio icon */}
-              <span
-                className="submit"
-                id="find-me"
-                style={{ height: "45px", width: "50px" }}
-                onClick={this.sendGeoLocatiuon}
-              >
-                <i class="far fa-compass" style={{ fontSize: "3rem" }}></i>
-              </span>
-              {/* image upload icon */}
-              <span
-                className="submit"
-                style={{ height: "45px", width: "50px" }}
-              >
-                <input type="file" onChange={this.sendMedia} />
-              </span>
-            </form>
-          </div>
-        </div>
+        <Container fluid>
+          <Row>
+            <Col lg={10} className="p-0">
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="message">
+                  <Form.Control
+                    type="text"
+                    placeholder="Write Your Message here..."
+                    name="message"
+                    onChange={this.handleChange}
+                    value={this.state.message}
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col lg={2}>
+              <Row>
+                <Col lg={3} className="p-0 text-center">
+                  <span
+                    className="fas fa-paper-plane"
+                    style={{ fontSize: "1.7rem" }}
+                    onClick={this.handleSubmit}
+                  ></span>
+                </Col>
+                <Col lg={3} className="p-0 text-center">
+                  <span
+                    className="fas fa-user-lock"
+                    style={{ fontSize: "1.7rem" }}
+                  ></span>
+                </Col>
+                <Col lg={3} className="p-0 text-center">
+                  <span
+                    className="fas fa-compass"
+                    style={{ fontSize: "1.7rem" }}
+                    onClick={this.sendGeoLocatiuon}
+                  ></span>
+                </Col>
+                <Col lg={3} className="p-0 text-center">
+                  <span
+                    className="fas fa-photo-video"
+                    style={{ fontSize: "1.7rem" }}
+                    onClick={this.handleMediaClick}
+                  >
+                    <input
+                      type="file"
+                      ref={(e) => {
+                        this.inputMediaRef = e;
+                      }}
+                      style={{ display: "none" }}
+                      onChange={this.sendMedia}
+                    />
+                  </span>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       );
     } else {
       return <div></div>;

@@ -6,15 +6,8 @@ import loginEmailUser from "./user/loginEmail";
 import forgotPassword from "./user/forgotPassword";
 import loginPhone from "./user/loginPhone";
 import verifyOTP from "./user/verifyOTP";
-
-//account schema
-// import editUser from "./account/editUser";
-// import changePassword from "./account/changePassword";
-// import changePasswordAdmin from "./account/changePasswordAdmin";
-// import editAdmin from "./account/editAdmin";
-
-//admin
-import loginEmailAdmin from "./admin/loginEmail";
+import editUser from "./user/editUser";
+import changePassword from "./user/changePassword";
 
 const schemas = {
   addUser: () => addUser(yup),
@@ -22,13 +15,8 @@ const schemas = {
   forgotPassword: () => forgotPassword(yup),
   loginPhone: () => loginPhone(yup),
   verifyOTP: () => verifyOTP(yup),
-  // editUser: () => editUser(yup),
-  // changePassword: () => changePassword(yup),
-  // changePasswordAdmin: () => changePasswordAdmin(yup),
-  // editAdmin: () => editAdmin(yup),
-
-  //admin
-  // loginEmailAdmin: () => loginEmailAdmin(yup),
+  editUser: () => editUser(yup),
+  changePassword: () => changePassword(yup),
 };
 
 const schemaValidator = (type) => {
