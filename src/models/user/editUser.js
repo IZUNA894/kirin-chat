@@ -2,7 +2,8 @@ const schema = (yup) => {
   return yup.object().shape({
     first_name: yup.string().label("first name"),
     last_name: yup.string().label("last name"),
-
+    country: yup.string(),
+    city: yup.string(),
     country_code: yup
       .string()
       .nullable()

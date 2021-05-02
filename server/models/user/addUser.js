@@ -15,6 +15,7 @@ const schema = joi =>
     email: joi
       .string()
       .email()
+      .lowercase()
       .required(),
     email_verified: joi
       .boolean()
@@ -27,7 +28,10 @@ const schema = joi =>
       .required()
       .valid(joi.ref("password"))
       .strip(),
-    username: joi.string().required(),
+    username: joi
+      .string()
+      .lowercase()
+      .required(),
     friends: joi
       .array()
       .forbidden()

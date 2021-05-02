@@ -41,8 +41,10 @@ class PeopleList extends Component {
                 </h5>
                 <p className="card-text text-muted">{"@" + usr.username}</p>
                 <p className="card-text">{usr.email}</p>
-                <p className="card-text">New Delhi</p>
-                <p className="card-text">India</p>
+                <p className="card-text">{usr.city ? usr.city : "New Delhi"}</p>
+                <p className="card-text">
+                  {usr.country ? usr.country : "India"}
+                </p>
               </div>
             </div>
           </div>

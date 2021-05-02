@@ -13,7 +13,8 @@ class EditUser extends Component {
   state = {
     first_name: null,
     last_name: null,
-
+    country: null,
+    city: null,
     phone: null,
     country_code: null,
   };
@@ -32,7 +33,8 @@ class EditUser extends Component {
       user_id,
       first_name: this.state.first_name,
       last_name: this.state.last_name,
-
+      country: this.state.country,
+      city: this.state.city,
       phone: this.state.phone,
       country_code: this.state.country_code,
     };
@@ -74,51 +76,51 @@ class EditUser extends Component {
           <h1 className="h3 mb-3 font-weight-normal text-center">
             Edit Profile
           </h1>
-          <h3
-            className="h3 mb-3 font-weight-normal text-danger"
-            style={{ fontSize: ".9rem" }}
-          >
-            * field are required
-          </h3>
+
           <div className="form-group ">
-            <label htmlFor="first_name">
-              First Name{" "}
-              <span className="errMsg" id="addon">
-                *
-              </span>
-            </label>
+            <label htmlFor="first_name">First Name </label>
             <input
               type="text"
               name="first_name"
               id="first_name"
               className="form-control"
               onChange={this.handleChange}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="This name will be helpful for others to identify you"
-              required
             />
           </div>
           <div className="form-group ">
-            <label htmlFor="last_name">
-              Last Name{" "}
-              <span className="errMsg" id="addon">
-                *
-              </span>
-            </label>
+            <label htmlFor="last_name">Last Name </label>
             <input
               type="text"
               name="last_name"
               id="last_name"
               className="form-control"
               onChange={this.handleChange}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="This name will be helpful for others to identify you"
-              required
             />
           </div>
 
+          {/* country */}
+          <div className="form-group ">
+            <label htmlFor="country">Country</label>
+            <input
+              type="text"
+              name="country"
+              id="country"
+              className="form-control"
+              onChange={this.handleChange}
+            />
+          </div>
+
+          {/* city */}
+          <div className="form-group ">
+            <label htmlFor="city">City</label>
+            <input
+              type="text"
+              name="city"
+              id="city"
+              className="form-control"
+              onChange={this.handleChange}
+            />
+          </div>
           <div className="form-group">
             <TelInput handlePhone={this.handlePhone} />
           </div>

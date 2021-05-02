@@ -517,13 +517,20 @@ module.exports.getAllPeople = parameters => {
                   $expr: {
                     $and: [
                       { $ne: ["$_id", "$$user_id"] },
-                      { $not: [{ $in: ["$_id", "$$friends"] }] }
+                      { $not: [{ $in: ["$_id", "$$friends._id"] }] }
                     ]
                   }
                 }
               },
               {
-                $project: { first_name: 1, last_name: 1, email: 1, username: 1 }
+                $project: {
+                  first_name: 1,
+                  last_name: 1,
+                  email: 1,
+                  username: 1,
+                  city: 1,
+                  country: 1
+                }
               }
             ],
             as: "people"

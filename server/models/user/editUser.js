@@ -8,6 +8,8 @@ const schema = joi =>
     first_name: joi.string().min(2),
     last_name: joi.string().min(2),
     username: joi.string(),
+    city: joi.string(),
+    country: joi.string(),
     phone: joi.string(),
     country_code: joi.string(),
 

@@ -98,9 +98,8 @@ class Login extends Component {
           </button>
         </form>
         <div className="new-user-text">
-          <Link to="/signup">Sign Up</Link>
+          <Link to="/signup">Sign Up</Link> /
           <Link to="/login/phone"> Login With Phone </Link>
-
           <p className="errMsg"></p>
         </div>
       </div>
