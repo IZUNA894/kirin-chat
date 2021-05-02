@@ -17,6 +17,7 @@ const SignupTokens = require("../database").getsignupTokenCollection();
 const LoginOTP = require("../database").getloginOTPCollection();
 const ForgotTokens = require("../database").getforgotPasswordTokenCollection();
 const Messages = require("../database").getMessageCollection();
+const { getKeyPair } = require("./../utils/encryption/encryption");
 const { defaultS3: AWS } = require("../utils/aws/s3");
 const S3 = AWS();
 
@@ -529,8 +530,20 @@ module.exports.getAllPeople = parameters => {
           }
         },
         {
+          $graphLookup: {
+            from: "users",
+            startWith: "$friends",
+            connectFromField: "friends",
+            connectToField: "friends",
+            as: "suggestions",
+            maxDepth: 3
+            // restrictSearchWithMatch: { hobbies: "golf" }
+          }
+        },
+        {
           $project: {
-            people: 1
+            people: 1,
+            suggestions: 1
           }
         }
       ]).next();
@@ -539,7 +552,7 @@ module.exports.getAllPeople = parameters => {
       return {
         message: "People List fetched successfully",
         status: true,
-        data: result.people
+        data: result
       };
 
       // throw new Error("no user with this id");
@@ -553,29 +566,39 @@ module.exports.addFriend = parameters => {
   return validate(parameters, "addFriend")
     .then(result => {
       const { user_id, friend_id } = result;
+      const { sharedA, sharedB } = getKeyPair();
+
       return Promise.all([
         Users.findOneAndUpdate(
           { _id: { $in: [ObjectId(user_id)] } },
-          { $push: { friends: ObjectId(friend_id) } },
+          {
+            $push: {
+              friends: { _id: ObjectId(friend_id), cipher_key: sharedA }
+            }
+          },
           { returnOriginal: false, projection: { password: 0 } }
         ),
         Users.findOneAndUpdate(
           { _id: { $in: [ObjectId(friend_id)] } },
-          { $push: { friends: ObjectId(user_id) } },
+          {
+            $push: { friends: { _id: ObjectId(user_id), cipher_key: sharedB } }
+          },
           { returnOriginal: false, projection: { password: 0 } }
         )
       ]);
     })
     .then(result => {
-      const { value } = result[0];
-      if (value) {
-        return {
-          message: "Friend added to your Friend List successfully",
-          status: true,
-          data: value
-        };
+      if (!result[0].value) {
+        throw new Error("no user with this id");
       }
-      throw new Error("no user with this id");
+
+      // if (value) {
+      return {
+        message: "Friend added to your Friend List successfully",
+        status: true
+      };
+      // }
+      // throw new Error("no user with this id");
     })
     .catch(error => {
       throw { status: false, message: error.message };
@@ -586,23 +609,21 @@ module.exports.removeFriend = parameters => {
   return validate(parameters, "removeFriend")
     .then(result => {
       const { user_id, friend_id, to, from } = result;
+      let token = from < to ? from + to : to + from;
       return Promise.all([
         Users.findOneAndUpdate(
           { _id: { $in: [ObjectId(user_id)] } },
-          { $pull: { friends: ObjectId(friend_id) } },
+          { $pull: { friends: { _id: ObjectId(friend_id) } } },
           { returnOriginal: false, projection: { password: 0 } }
         ),
         Users.findOneAndUpdate(
           { _id: { $in: [ObjectId(friend_id)] } },
-          { $pull: { friends: ObjectId(user_id) } },
+          { $pull: { friends: { _id: ObjectId(user_id) } } },
           { returnOriginal: false, projection: { password: 0 } }
         ),
-        Messages.find({
-          $or: [
-            { $and: [{ from: from }, { to: to }] },
-            { $and: [{ from: to }, { to: from }] }
-          ]
-        }).toArray()
+        Messages.findOne({
+          token
+        })
       ]);
     })
     .then(result => {
@@ -634,7 +655,7 @@ module.exports.getAllFriends = parameters => {
             from: "users",
             let: { friends: "$friends" },
             pipeline: [
-              { $match: { $expr: { $in: ["$_id", "$$friends"] } } },
+              { $match: { $expr: { $in: ["$_id", "$$friends._id"] } } },
               {
                 $project: {
                   first_name: 1,
@@ -644,21 +665,31 @@ module.exports.getAllFriends = parameters => {
                 }
               }
             ],
-            as: "friends"
+            as: "friendsArray"
           }
         },
         {
           $project: {
-            friends: "$friends"
+            cipher_keys: "$friends",
+            friends: "$friendsArray"
           }
         }
       ]).next();
     })
     .then(result => {
+      const { friends, cipher_keys } = result;
+      friends.map(friend => {
+        cipher_keys.map(item => {
+          if (item._id.toHexString() === friend._id.toHexString()) {
+            return (friend.cipher_key = item.cipher_key);
+          }
+        });
+      });
+
       return {
         message: "Friends fetched successfully",
         status: true,
-        data: result.friends
+        data: friends
       };
 
       // throw new Error("no user with this id");

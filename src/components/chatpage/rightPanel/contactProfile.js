@@ -8,7 +8,7 @@ import PokeImg from "./../../../images/poke-5.png";
 import UserService from "./../../../services/userApiService";
 import toast from "./../../../utils/toast";
 import { showLoader, hideLoader, setUser } from "./../../../redux/actions";
-
+import { Dropdown } from "react-bootstrap";
 class ContactProfile extends Component {
   removeFriend = (contact) => {
     // var {sender} = this.context;
@@ -41,13 +41,18 @@ class ContactProfile extends Component {
           <img src={avatar ? "/api/v1/media/" + avatar : PokeImg} alt="" />
           <p>{contact.username}</p>
           <div className="social-media">
-            <i className="fa fa-facebook"></i>
-            <i className="fa fa-twitter"></i>
-            <i className="fa fa-instagram"></i>
-            <i
-              className="fa fa-ellipsis-v"
-              onClick={(e) => this.removeFriend(contact)}
-            ></i>
+            <Dropdown>
+              <Dropdown.Toggle
+                split
+                variant="secondary"
+                id="dropdown-split-basic"
+              />
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={(e) => this.removeFriend(contact)}>
+                  Remove Friend
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
       );

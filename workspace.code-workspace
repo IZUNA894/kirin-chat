@@ -17,6 +17,9 @@
     },
     {
       "path": "..\\socket.io"
+    },
+    {
+      "path": "..\\mcatScript"
     }
   ],
   "settings": {}

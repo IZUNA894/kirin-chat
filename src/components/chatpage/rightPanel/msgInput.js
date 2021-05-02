@@ -5,7 +5,7 @@ import toast from "./../../../utils/toast";
 import { sendMessage } from "../../../js/socketUtil";
 import { setMessage } from "./../../../redux/actions";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-
+import { decrypt, encrypt } from "./../../../utils/encryption";
 class MsgInput extends Component {
   state = {
     message: null,
@@ -24,9 +24,37 @@ class MsgInput extends Component {
       from: user.username,
       from_id: user._id,
       to: friend.username,
-      friend_id: friend._id,
+      to_id: friend._id,
       value: message,
       type: "TEXT",
+    };
+    sendMessage(newMessage);
+    //send the msg to lacal state..
+    let messageArr = this.props.messageArr[friend.username]
+      ? this.props.messageArr[friend.username]
+      : [];
+    messageArr.push(newMessage);
+
+    this.props.setMessage({ to: friend.username, message: messageArr });
+  };
+
+  sendMessageEncrypted = (e) => {
+    e.preventDefault();
+    let message = this.state.message;
+    this.setState({ message: "" });
+
+    const user = this.props.user;
+    const friend = this.props.selected_contact;
+    const cipher_key = Uint8Array.from(Object.values(friend.cipher_key));
+    const value = encrypt(cipher_key, message);
+    const newMessage = {
+      from: user.username,
+      from_id: user._id,
+      to: friend.username,
+      to_id: friend._id,
+      value,
+      raw: message,
+      type: "E2E",
     };
     sendMessage(newMessage);
     //send the msg to lacal state..
@@ -58,7 +86,7 @@ class MsgInput extends Component {
           from: user.username,
           from_id: user._id,
           to: friend.username,
-          friend_id: friend._id,
+          to_id: friend._id,
           type: "LOCATION",
           latitude,
           longitude,
@@ -95,7 +123,7 @@ class MsgInput extends Component {
           from: user.username,
           from_id: user._id,
           to: friend.username,
-          friend_id: friend._id,
+          to_id: friend._id,
           base64_string: base64,
           type: "MEDIA",
         };
@@ -148,6 +176,7 @@ class MsgInput extends Component {
                   <span
                     className="fas fa-user-lock"
                     style={{ fontSize: "1.7rem" }}
+                    onClick={this.sendMessageEncrypted}
                   ></span>
                 </Col>
                 <Col lg={3} className="p-0 text-center">

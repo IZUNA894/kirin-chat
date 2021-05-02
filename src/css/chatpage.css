@@ -87,7 +87,7 @@ body {
   }
 }
 #frame #sidepanel #profile .wrap img {
-  width: 5rem;
+  width: 4rem;
   border-radius: 50%;
   padding: 3px;
   border: 2px solid #e74c3c;
@@ -470,7 +470,7 @@ body {
   background: #e74c3c;
 }
 #frame #sidepanel #contacts ul li.contact .wrap img {
-  width: 40px;
+  width: 50px;
   border-radius: 50%;
   float: left;
   margin-right: 10px;
@@ -694,7 +694,7 @@ body {
   float: left;
 }
 #frame .content .messages ul li img {
-  width: 30px;
+  width: 45px;
   border-radius: 50%;
   float: left;
 }

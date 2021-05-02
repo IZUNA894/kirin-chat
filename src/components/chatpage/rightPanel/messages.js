@@ -1,18 +1,15 @@
-// this component is rendering our msg board
 import React, { Component } from "react";
 import { recieveMessage } from "../../../js/socketUtil";
 import { connect } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 import { setMessage } from "./../../../redux/actions";
 import PokeImg from "../../../images/poke-5.png";
 import $ from "jquery";
-// import { MainContext } from "../../../context/mainContext";
-
+import Message from "./message";
 class Messages extends Component {
   state = {
     key: null,
   };
-  //   static contextType = MainContext;
 
   componentDidMount() {
     // here we are listening for incoming msg...through socket io..and adding them to state...
@@ -40,30 +37,12 @@ class Messages extends Component {
     );
   }
   render() {
-    // var {sender,openedContact} =  this.context;
-    // var user = localStorage.getItem('user');
-    // user = JSON.parse(user);
-    // var reciever = openedContact && openedContact.username;
-    // var tokenId = "";
-    // var recieverId = openedContact && openedContact._id;
-
-    // var contact = openedContact;
-    // var route = "";
-    // var sentLink = "";
-    // var repliesLink = "";
     let friend = this.props.selected_contact;
     let user = this.props.user;
 
     if (friend) {
       //if  a contact is choosen...
 
-      // tokenId = sender < reciever ? sender + reciever : reciever + sender;
-
-      //   var msgArray =
-      //     this.props.messages &&
-      //     this.props.messages[tokenId] &&
-      //     this.props.messages[tokenId].data;
-      // console.log(msgArray);
       let messages = this.props.message[friend.username]
         ? this.props.message[friend.username]
         : [];
@@ -88,35 +67,7 @@ class Messages extends Component {
                 alt=""
               />
 
-              <p>
-                {msg.type === "TEXT" ? (
-                  msg.value
-                ) : msg.type === "LOCATION" ? (
-                  <a
-                    href={`http://maps.google.com/maps?q=loc:${msg.latitude},${msg.longitude}`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    LOCATION
-                  </a>
-                ) : (
-                  <img
-                    src={msg.base64_string}
-                    alt=""
-                    style={{
-                      height: "15vw",
-                      width: "15vw",
-                      borderRadius: "3px",
-                    }}
-                  />
-                )}
-                <br />
-                <span
-                  style={{ float: "right", color: "grey", fontSize: 15 + "px" }}
-                >
-                  {moment(msg.date_added).format("hh:mm a")}
-                </span>
-              </p>
+              <Message message={msg} />
             </li>
           );
         });
@@ -136,13 +87,20 @@ class Messages extends Component {
           <div
             className="messages"
             id="msgBoard"
-            style={{ height: 100 + "vh", backgroundColor: "black" }}
+            style={{
+              height: 100 + "vh",
+              backgroundColor: "black",
+              display: "flex",
+              alignContent: "center",
+
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "10rem",
+              flexDirection: "column",
+            }}
           >
-            <ul id="msgBoardUl">
-              {
-                "No messages in this chat ...\n.Start conversion by saying hello"
-              }
-            </ul>
+            <p className="inner-text text-center">Say Hello ... !</p>
+            <i className="far fa-hand-spock " style={{ color: "magenta" }}></i>
           </div>
         );
       }

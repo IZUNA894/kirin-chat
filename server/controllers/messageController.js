@@ -14,19 +14,17 @@ module.exports.getAllMessages = parameters => {
   return validate(parameters, "getAllMessages")
     .then(result => {
       const { from, to } = result;
-      return Messages.find({
-        $or: [
-          { $and: [{ from: from }, { to: to }] },
-          { $and: [{ from: to }, { to: from }] }
-        ]
-      }).toArray();
+      let token = from < to ? from + to : to + from;
+      return Messages.findOne({
+        token
+      });
     })
     .then(result => {
       //   if (result) {
       return {
         message: "Messages fetched successfully",
         status: true,
-        data: result
+        data: result ? result.messages : []
       };
       //   }
       //   throw new Error("no user with this id");
