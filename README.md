@@ -90,5 +90,5 @@ and then run `npm start`. (assumming you are running your server side code on po
 
 ## Note
 
-Hosted version of this app may break after some time, as my AWS Credentails may have expired then, when you are seeing it!. 
+Hosted version of this app may break after some time, as my AWS Credentials may have expired then, when you are seeing it!. 
 Sorry for inconvenience caused.
