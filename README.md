@@ -87,3 +87,8 @@ like AWS S3,SNS,SES, and mongodb string.
 run  `npm install` to install all dependencies 
 and then run `npm start`. (assumming you are running your server side code on port 30001,if not change it😁).
 
+
+## Note
+
+Hosted version of this app may break after some time, as my AWS may have expired then, when you are seeing it!. 
+Sorry for inconvenience caused.
